@@ -1,0 +1,43 @@
+/* Кнопка */
+.showmore-bottom {
+    text-align: center;
+}
+.showmore-bottom a {
+    padding: 20px 30px;
+    display: inline-block;
+    border: 1px solid #3f2aff;
+    border-radius: 100px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #3f2aff;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+/* Вывод товаров */
+.prod-list {
+    overflow: hidden;
+    margin: 0 0 20px 0;
+}
+.prod-item {
+    float: left;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 0 20px 20px 0;
+    text-align: center;
+    border-radius: 6px;
+}
+.prod-item-img {
+    width: 100%;
+}
+.prod-item-name {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.prod-list .prod-item:nth-child(3n) {
+    margin-right: 0
+}
