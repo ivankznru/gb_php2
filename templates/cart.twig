@@ -1,0 +1,49 @@
+{% include 'header.twig' %}
+<div class="row">
+{% if goods %}
+    <h2>Товары</h2>
+    <table>
+        <thead>
+        <td>Наименование</td>
+        <td>Цена</td>
+        <td>Количество</td>
+        <td>Сумма</td>
+        </thead>
+        <tbody>
+        {% for good in goods %}
+            <tr>
+                <td><a href="index.php?path=good&id={{ good.id_good }}" link="{{ good.id_good }}" class="category-link">{{ good.name }}</a></td>
+                <td><span>{{ good.price }}</span></td>
+                <td><span>{{ good.quantity }}</span></td>
+                <td><span>{{ good.total }}</span></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a id="order" class="btn btn-default">Оформить заказ</a>
+    <script>
+        $('#order').on('click', function () {
+            $.ajax({
+                url: 'index.php?path=cart&action=order&asAjax',
+                type: 'post',
+                dataType: 'json',
+
+                success: function(json) {
+
+                    if (json['success']) {
+
+                        alert(json['success']);
+                        window.location.reload();
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        });
+    </script>
+{% else %}
+    Ваша корзина пустая
+{% endif %}
+</div>
+{% include 'footer.twig' %}

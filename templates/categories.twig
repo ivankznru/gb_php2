@@ -1,0 +1,53 @@
+{% include 'header.twig' %}
+<div class="row">
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="index.php?path=categories&id={{ category.id_category }}" link="{{ category.id_category }}" class="category-link">{{ category.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if goods %}
+    <h2>Товары</h2>
+    <table>
+        <thead>
+        <td>Наименование</td>
+        <td>Цена</td>
+        <td></td>
+        </thead>
+        <tbody>
+        {% for good in goods %}
+            <tr>
+                <td><a href="index.php?path=good&id={{ good.id_good }}" link="{{ good.id_good }}" class="category-link">{{ good.name }}</a></td>
+                <td><span>{{ good.price }}</span></td>
+                <td><button onclick="cart.add('{{ good.id_good  }}');">Купить</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+<script>
+    var cart = {
+        'add' : function (id_good) {
+            $.ajax({
+                url: 'index.php?path=cart&action=add&asAjax',
+                type: 'post',
+                data: 'id_good=' + id_good,
+                dataType: 'json',
+
+                success: function(json) {
+
+                    if (json['success']) {
+
+                        alert(json['success']);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+    }
+    };
+</script>
+{% include 'footer.twig' %}

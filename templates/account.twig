@@ -1,0 +1,83 @@
+{% include 'header.twig' %}
+<div class="row">
+    <label>Последние посещенные страницы</label>
+    <ul>
+    {% for page in last_pages %}
+    <li>
+        <a href="{{ page }}" class="category-link">{{ page}}</a>
+    </li>
+    {% endfor %}
+    </ul>
+    {% if orders %}
+        <h2>Заказы</h2>
+        <table>
+            <thead>
+            <td>Номер</td>
+            <td class="text-center">Товары</td>
+            <td>Сумма</td>
+            <td>Статус</td>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr class="order">
+                    <td><span>#{{ order.id_order }}</span><input hidden name="order_id" value="{{ order.id_order }}"/></td>
+                    <td>
+                        <table>
+                            <thead>
+                            <td>Наименование</td>
+                            <td>Количество</td>
+                            <td>Цена</td>
+                            <td>Сумма</td>
+                            </thead>
+                            <tbody>
+                        {% for good in order.goods %}
+                            <tr>
+                                <td><a href="index.php?path=good&id={{ good.id_good }}" link="{{ good.id_good }}" class="category-link">{{ good.name }}</a></td>
+                                <td>{{ good.quantity }}</td>
+                                <td>{{ good.price }}</td>
+                                <td>{{ good.total }}</td>
+                            </tr>
+                        {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                    <td><span>{{ order.total }}</span></td>
+                    <td>
+                        <select name="status">
+                            {% for status in order_statuses %}
+                                <option value="{{ status.id_order_status }}"{% if status.id_order_status == order.id_order_status %} selected{% endif %}>{{ status.order_status_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $('select[name="status"]').on('change', function () {
+                var id_order = $(this).closest('.order').find('input[name="order_id"]').val();
+                var id_status = $(this).val();
+
+                $.ajax({
+                    url: 'index.php?path=order&action=changestatus&asAjax',
+                    type: 'post',
+                    data: {'id_order':id_order, 'id_status':id_status},
+                    dataType: 'json',
+
+                    success: function(json) {
+
+                        if (json['success']) {
+
+                            alert(json['success']);
+                            window.location.reload();
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+</div>
+{% include 'footer.twig' %}

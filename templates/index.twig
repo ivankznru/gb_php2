@@ -1,0 +1,11 @@
+{% include 'header.twig' %}
+<div class="row">
+<ul>
+    {% for category in categories %}
+    <li>
+        <a href="index.php?path=categories&id={{ category.id_category }}" link="{{ category.id_category }}" class="category-link">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+</div>
+{% include 'footer.twig' %}

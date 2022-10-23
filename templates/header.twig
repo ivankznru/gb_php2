@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <body>
+    <div class="container">
+    <!--    Форма авторизации пользователя-->
+    <div class="row">
+    <div class="col-md-6">
+        {% if user_data %}
+            <label>Welcome {{ user_data.user_name }}</label>
+            <!--    кнопка выхода-->
+                <form method="post" action="index.php?path=login&action=logout" enctype="multipart/form-data">
+                    <button type="submit" name="exit" class="btn btn-default">Выйти</button>
+                    <input hidden name="redirect" value="{{ redirect }}">
+                    <a href="index.php?path=account" class="btn btn-default">Аккаунт</a>
+                    <a href="index.php?path=cart" class="btn btn-default">Корзина</a>
+                </form>
+        {% else %}
+        <form method="post" action="index.php?path=login" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="imputName">Имя пользователя</label>
+                <input type="text" class="form-control" id="imputName" name="name" placeholder="Введите имя" value="{{ session.login }}">
+                {% if session.error['login'] %}
+                    <div>{{ session.error['login'] }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Пароль:</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Введите пароль" value="">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember">Запомнить
+                </label>
+            </div>
+            <input hidden name="redirect" value="{{ redirect }}">
+            <button type="submit" name="enter" class="btn btn-default">Войти</button>
+            <a href="index.php?path=registration" class="btn btn-default">Зарегистрироваться</a>
+            <a href="index.php?path=cart" class="btn btn-default">Корзина</a>
+        </form>
+        {% endif %}
+    </div>
+    </div>
